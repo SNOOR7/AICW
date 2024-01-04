@@ -1,6 +1,4 @@
 import numpy as np
-
-# import tensorflow as tf
 import keras
 
 # This is to load the MNIST dataset
