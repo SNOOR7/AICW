@@ -36,3 +36,7 @@ def relu(x):
 
 def relu_derivative(x):
     return np.where(x > 0, 1, 0)
+
+def softmax(x):
+    exponent_vals = np.exp(x - np.max(x, axis=1, keepdims=True))
+    return exponent_vals / np.sum(exponent_vals, axis=1, keepdims=True)
