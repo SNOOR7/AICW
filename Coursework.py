@@ -107,6 +107,13 @@ class NeuralNetwork:
         gradients.reverse()
         return gradients
 
-     
+    def updateWeights(self, gradients, learning_rate):
+        for i in range(len(self.layers)):
+            self.layers[i] -= learning_rate.learning_rate * gradients[i]
+
+    def computeLoss(self, predictions, targets):
+        num_samples = predictions.shape[0]
+        loss = -np.sum(targets * np.log(predictions + 1e-10)) / num_samples
+        return loss
 
      
