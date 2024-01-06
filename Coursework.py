@@ -158,3 +158,16 @@ class SGD(Optimizer):
     def update(self, layers, gradients):
         for i in range(len(layers)):
             layers[i] -= self.learning_rate * gradients[i]
+
+class Momentum(Optimizer):
+    def __init__(self, layers, learning_rate, momentum=0.9):
+        super().__init__(learning_rate)
+        self.momentum = momentum
+        self.velocities = [np.zeros_like(layer) for layer in layers]
+
+    def update(self, layers, gradients):
+        for i in range(len(layers)):
+            self.velocities[i] = (
+                self.momentum * self.velocities[i] - self.learning_rate * gradients[i]
+            )
+            layers[i] += self.velocities[i]
