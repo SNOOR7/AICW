@@ -73,3 +73,40 @@ class NeuralNetwork:
         layer_sizes = [self.input_size] + self.hidden_layers + [self.output_size]
         for i in range(len(layer_sizes) - 1):
             self.layers.append(np.random.randn(layer_sizes[i], layer_sizes[i + 1]) * 0.01)
+
+     def forwardPass(self, x, training=True):
+        layer_output = x
+        self.layer_outputs = [layer_output]
+        for layer in self.layers:
+            layer_output = np.dot(layer_output, layer)
+            if self.activation == "relu":
+                layer_output = relu(layer_output)
+            elif self.activation == "sigmoid":
+                layer_output = sigmoid(layer_output)
+            self.layer_outputs.append(layer_output)
+            if training:
+                layer_output = self.dropout.forward(layer_output, training)
+        return softmax(layer_output)
+
+    def backwardPass(self, x, y):
+        gradients = []
+        predictions = self.forwardPass(x, training=True)
+        num_samples = x.shape[0]
+        output_error = predictions - y
+
+        for i in reversed(range(len(self.layers))):
+            if self.activation == "relu":
+                derivative = relu_derivative(self.layer_outputs[i + 1])
+            elif self.activation == "sigmoid":
+                derivative = sigmoid_derivative(self.layer_outputs[i + 1])
+            else:
+                derivative = 1
+            grad = (np.dot(self.layer_outputs[i].T, output_error * derivative) / num_samples)
+            gradients.append(grad)
+            output_error = np.dot(output_error * derivative, self.layers[i].T)
+        gradients.reverse()
+        return gradients
+
+     
+
+     
