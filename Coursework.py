@@ -185,3 +185,34 @@ learning_rate = 0.01
 
 # Create Neural Network instance with sigmoid activation
 model = NeuralNetwork(input_size, hidden_layers, output_size, activation="sigmoid", dropout_rate=0.2)
+
+# Choose the optimizer
+optimizer = SGD(learning_rate)
+# Or use Momentum optimizer
+# optimizer = Momentum(model.layers, learning_rate)
+
+# Train the model
+train_losses, train_accuracies, test_accuracies = model.train(
+    x_train, y_train_one_hot, x_test, y_test_one_hot, epochs, batch_size, optimizer
+)
+
+# Plotting
+epochs_range = range(epochs)
+plt.figure(figsize=(12, 4))
+
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, train_losses, label='Training Loss')
+plt.title('Training Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, train_accuracies, label='Training Accuracy')
+plt.plot(epochs_range, test_accuracies, label='Testing Accuracy')
+plt.title('Training and Testing Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+
+plt.show()
