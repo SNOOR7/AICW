@@ -22,7 +22,7 @@ num_classes = 10
 y_train_one_hot = one_hot_encoding(y_train, num_classes)
 y_test_one_hot = one_hot_encoding(y_test, num_classes)
 
-# Activation Functions and Their Derivatives
+# Activation functions and their derivatives
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
@@ -175,7 +175,7 @@ class Momentum(Optimizer):
 x_train = x_train.reshape(x_train.shape[0], -1)
 x_test = x_test.reshape(x_test.shape[0], -1)
 
-# Define hyperparameters
+# Hyperparameters
 input_size = 784  # 28x28 pixels flattened
 hidden_layers = [128, 64]
 output_size = num_classes
@@ -188,15 +188,17 @@ model = NeuralNetwork(input_size, hidden_layers, output_size, activation="sigmoi
 
 # Choose the optimizer
 optimizer = SGD(learning_rate)
-# Or use Momentum optimizer
-# optimizer = Momentum(model.layers, learning_rate)
+
+# Or use the Momentum optimizer
+
+## optimizer = Momentum(model.layers, learning_rate)
 
 # Train the model
 train_losses, train_accuracies, test_accuracies = model.train(
     x_train, y_train_one_hot, x_test, y_test_one_hot, epochs, batch_size, optimizer
 )
 
-# Plotting
+# Plotting the graph
 epochs_range = range(epochs)
 plt.figure(figsize=(12, 4))
 
