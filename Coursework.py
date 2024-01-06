@@ -8,7 +8,7 @@ import keras
 x_train = x_train.astype("float32") / 255.0
 x_test = x_test.astype("float32") / 255.0
 
-Convert labels to one-hot encoded vectors
+# Convert labels to one-hot encoded vectors
 def one_hot_encoding(labels, num_classes):
     num_samples = len(labels)
     encoded_labels = np.zeros((num_samples, num_classes))
