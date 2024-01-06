@@ -74,7 +74,7 @@ class NeuralNetwork:
         for i in range(len(layer_sizes) - 1):
             self.layers.append(np.random.randn(layer_sizes[i], layer_sizes[i + 1]) * 0.01)
 
-     def forwardPass(self, x, training=True):
+    def forwardPass(self, x, training=True):
         layer_output = x
         self.layer_outputs = [layer_output]
         for layer in self.layers:
