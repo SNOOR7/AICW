@@ -59,3 +59,17 @@ class Dropout:
     def backward(self, grad):
         return grad * self.mask
 
+class NeuralNetwork:
+    def __init__(self, input_size, hidden_layers, output_size, activation="relu", dropout_rate=0.0):
+        self.input_size = input_size
+        self.hidden_layers = hidden_layers
+        self.output_size = output_size
+        self.layers = []
+        self.activation = activation
+        self.dropout = Dropout(dropout_rate)
+        self.build_network()
+
+    def build_network(self):
+        layer_sizes = [self.input_size] + self.hidden_layers + [self.output_size]
+        for i in range(len(layer_sizes) - 1):
+            self.layers.append(np.random.randn(layer_sizes[i], layer_sizes[i + 1]) * 0.01)
