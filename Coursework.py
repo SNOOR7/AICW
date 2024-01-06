@@ -171,3 +171,17 @@ class Momentum(Optimizer):
                 self.momentum * self.velocities[i] - self.learning_rate * gradients[i]
             )
             layers[i] += self.velocities[i]
+
+x_train = x_train.reshape(x_train.shape[0], -1)
+x_test = x_test.reshape(x_test.shape[0], -1)
+
+# Define hyperparameters
+input_size = 784  # 28x28 pixels flattened
+hidden_layers = [128, 64]
+output_size = num_classes
+epochs = 201
+batch_size = 64
+learning_rate = 0.01
+
+# Create Neural Network instance with sigmoid activation
+model = NeuralNetwork(input_size, hidden_layers, output_size, activation="sigmoid", dropout_rate=0.2)
