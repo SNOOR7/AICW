@@ -116,4 +116,33 @@ class NeuralNetwork:
         loss = -np.sum(targets * np.log(predictions + 1e-10)) / num_samples
         return loss
 
+    def train(self, x_train, y_train, x_test, y_test, epochs, batch_size, learning_rate):
+        train_losses, train_accuracies, test_accuracies = [], [], []
+
+        for epoch in range(epochs):
+            total_loss = 0.0
+            for i in range(0, len(x_train), batch_size):
+                x_batch = x_train[i: i + batch_size]
+                y_batch = y_train[i: i + batch_size]
+                grad = self.backwardPass(x_batch, y_batch)
+                self.updateWeights(grad, learning_rate)
+
+                predictions = self.forwardPass(x_batch, training=False)
+                batch_loss = self.computeLoss(predictions, y_batch)
+                total_loss += batch_loss
+
+            avg_loss = total_loss / (len(x_train) // batch_size)
+            train_losses.append(avg_loss)
+
+            train_pred = np.argmax(self.forwardPass(x_train, training=False), axis=1)
+            train_acc = np.mean(train_pred == np.argmax(y_train, axis=1))
+            test_pred = np.argmax(self.forwardPass(x_test, training=False), axis=1)
+            test_acc = np.mean(test_pred == np.argmax(y_test, axis=1))
+
+            train_accuracies.append(train_acc)
+            test_accuracies.append(test_acc)
+
+            print(f'Epoch {epoch}: Loss = {avg_loss:.4f}, Train Acc = {train_acc:.4f}, Test Acc = {test_acc:.4f}')
+
+        return train_losses, train_accuracies, test_accuracies
      
