@@ -146,3 +146,15 @@ class NeuralNetwork:
 
         return train_losses, train_accuracies, test_accuracies
      
+class Optimizer:
+    def __init__(self, learning_rate):
+        self.learning_rate = learning_rate
+
+    def update(self, layers, gradients):
+        pass
+
+
+class SGD(Optimizer):
+    def update(self, layers, gradients):
+        for i in range(len(layers)):
+            layers[i] -= self.learning_rate * gradients[i]
