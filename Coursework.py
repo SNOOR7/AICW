@@ -40,3 +40,21 @@ def relu_derivative(x):
 def softmax(x):
     exponent_vals = np.exp(x - np.max(x, axis=1, keepdims=True))
     return exponent_vals / np.sum(exponent_vals, axis=1, keepdims=True)
+
+class Dropout:
+    def __init__(self, dropout_rate):
+        self.dropout_rate = dropout_rate
+        self.mask = None
+
+    def forward(self, x, training=True):
+        if training:
+            self.mask = (
+                np.random.rand(*x.shape) < self.dropout_rate
+            ) / self.dropout_rate
+            return x * self.mask
+        else:
+            return x
+
+    def backward(self, grad):
+        return grad * self.mask
+
